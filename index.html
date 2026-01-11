@@ -1,24 +1,81 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <title>Recipe Book | Login</title>
-  <link rel="stylesheet" href="css/style.css" />
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>RECIPEs</title>
 
-  <div class="login-container">
-    <h1>Recipe Book</h1>
+<link rel="stylesheet" href="css/style.css" />
+<link rel="stylesheet" href="css/main.css" />
+  </head>
 
-    <form id="loginForm">
-      <input type="text" id="login" placeholder="Login" required />
-      <input type="password" id="password" placeholder="Password" required />
-      <button type="submit">Login</button>
-    </form>
+  <body>
+    <div class="app">
+      <header class="topbar">
+        <div class="topbar__left">
+          <button class="btn btn--ghost" type="button">ADD RECIPE</button>
+        </div>
 
-    <p id="loginError"></p>
-  </div>
+        <div class="topbar__center">
+          <h1 class="brand">MEGAKNIGHT</h1>
+        </div>
 
-  <script src="js/auth.js"></script>
-</body>
-</html>
+        <div class="topbar__right">
+          <div class="icon-btn" aria-label="SEARCH" title="SEARCH">
+            🔎
+          </div>
+          <div class="icon-btn" aria-label="PROFILE" title="PROFILE">
+            👤
+          </div>
+        </div>
+      </header>
+
+<div class="layout">
+  <aside class="sidebar">
+    <nav class="sidebar__nav">
+      <a class="side-link is-active" href="#">Fastfood</a>
+      <a class="side-link" href="#">Russian cuisine</a>
+      <a class="side-link" href="#">French cuisine</a>
+    </nav>
+  </aside>
+
+  <main class="main">
+    <section class="rail">
+      <div class="categories__grid" aria-label="categories">
+        <article class="category-card">
+          <img src="assets/images/breakfast.jpeg" alt="BREAKFAST" />
+          <span>BREAKFAST</span>
+        </article>
+
+        <article class="category-card">
+          <img src="assets/images/lunch.jpeg" alt="LUNCH" />
+          <span>LUNCH</span>
+        </article>
+
+        <article class="category-card">
+          <img src="assets/images/dinner.jpeg" alt="DINNER" />
+          <span>DINNER</span>
+        </article>
+
+        <article class="category-card">
+          <img src="assets/images/healthy.jpeg" alt="HEALTHY" />
+          <span>HEALTHY</span>
+        </article>
+
+        <article class="category-card">
+          <img src="assets/images/snacks.jpeg" alt="SNACKS" />
+          <span>SNACKS</span>
+        </article>
+
+        <article class="category-card">
+          <img src="assets/images/desserts.jpeg" alt="DESSERTS" />
+          <span>DESSERTS</span>
+        </article>
+      </div>
+    </section>
+  </main>
+
+<aside class="rightbar">
+  <img src="assets/images/Megaknight.jpeg" alt="Sidebar image" />
+</aside>
+</div>
