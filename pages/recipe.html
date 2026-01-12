@@ -4,6 +4,8 @@
   <meta charset="UTF-8" />
   <title>Recipe</title>
 
+  <link rel="icon" type="image/png" sizes="32x32" href="../assets/images/icon2.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="../assets/images/icon2.png">
   <link rel="stylesheet" href="../css/style.css" />
   <link rel="stylesheet" href="../css/main.css" />
   <link rel="stylesheet" href="../css/pages.css" />
@@ -12,38 +14,61 @@
 <body>
   <div class="app">
 
-    <main class="main">
+    <header class="topbar">
+      <div class="topbar__left">
+        <button class="btn btn--ghost" type="button">ADD RECIPE</button>
+      </div>
 
-      <h1 class="recipe-title">Classic Burger</h1>
+      <div class="topbar__center">
+      <h1 class="brand brand--recipe">Classic Burger</h1>
+      </div>
 
-    <div class="recipe-hero">
-      <img src="../assets/images/burger.jpeg" alt="Burger" />
-  </div>
+      <div class="topbar__right">
+        <div class="icon-btn" aria-label="PROFILE" title="PROFILE">👤</div>
+      </div>
+    </header>
 
-      <section class="recipe-info">
-        <p><strong>Time:</strong> 30 min</p>
-        <p><strong>Difficulty:</strong> Easy</p>
-      </section>
+    <main class="main recipe-page">
 
-      <section class="recipe-section">
-        <h3>Ingredients</h3>
-        <ul>
+      <div class="recipe-container">
+
+      <section class="recipe-layout">
+        <div class="recipe-left">
+        <div class="recipe-panel recipe-photo-panel">
+        <img src="../assets/images/burger.jpeg" alt="Classic Burger" />
+      </div>
+        </div>
+
+        <div class="recipe-right">
+        <div class="recipe-panel">
+          <h3>Info</h3>
+          <p><strong>Time:</strong> 30 min</p>
+          <p><strong>Difficulty:</strong> Easy</p>
+        </div>
+
+        <div class="recipe-panel">
+          <h3>Ingredients</h3>
+          <ul>
           <li>Bun</li>
           <li>Meat</li>
           <li>Cheese</li>
-        </ul>
+          <li>Tomato</li>
+          <li>Sauce</li>
+          </ul>
+        </div>
+        </div>
       </section>
 
-      <section class="recipe-section">
+      <div class="recipe-panel recipe-steps-panel">
         <h3>Steps</h3>
         <ol>
-          <li>Prepare meat</li>
-          <li>Fry</li>
+         <li>Prepare meat</li>
+          <li>Fry the patty</li>
           <li>Assemble burger</li>
         </ol>
-      </section>
+        </div>
 
     </main>
-  </div>
-</body>
-</html>
+    </div>
+  </body>
+  </html>

@@ -4,6 +4,8 @@
   <meta charset="UTF-8" />
   <title>Category</title>
 
+  <link rel="icon" type="image/png" sizes="32x32" href="../assets/images/icon2.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="../assets/images/icon2.png">
   <link rel="stylesheet" href="../css/style.css" />
   <link rel="stylesheet" href="../css/main.css" />
   <link rel="stylesheet" href="../css/pages.css" />
@@ -11,34 +13,50 @@
 
 <body>
   <div class="app">
-
     <header class="topbar">
-      <h1 class="brand">MEGAKNIGHT</h1>
-    </header>
-
-    <main class="main">
-
-      <h2 class="page-title">FASTFOOD</h2>
-
-      <div class="grid category-grid">
-        <div class="card">
-          <div class="card__media">IMAGE</div>
-          <div class="card__body">
-            <div class="card__title">Burger</div>
-            <div class="card__meta">30 min • easy</div>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="card__media">IMAGE</div>
-          <div class="card__body">
-            <div class="card__title">Pizza</div>
-            <div class="card__meta">45 min • medium</div>
-          </div>
-        </div>
+      <div class="topbar__left">
+        <button class="btn btn--ghost" type="button">ADD RECIPE</button>
       </div>
 
-    </main>
+      <div class="topbar__center">
+        <h1 class="brand">MEGAKNIGHT</h1>
+      </div>
+
+      <div class="topbar__right">
+        <div class="icon-btn" aria-label="PROFILE" title="PROFILE">👤</div>
+      </div>
+    </header>
+
+    <div class="layout">
+      <aside class="sidebar">
+        <nav class="sidebar__nav">
+          <a class="side-link is-active" href="#">Fastfood</a>
+          <a class="side-link" href="#">Russian cuisine</a>
+          <a class="side-link" href="#">French cuisine</a>
+        </nav>
+      </aside>
+
+      <main class="main">
+        <div class="grid category-grid">
+          <div class="card">
+            <div class="card__media">IMAGE</div>
+            <div class="card__body">
+              <div class="card__title">Burger</div>
+              <div class="card__meta">30 min • easy</div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card__media">IMAGE</div>
+            <div class="card__body">
+              <div class="card__title">Pizza</div>
+              <div class="card__meta">45 min • medium</div>
+            </div>
+          </div>
+        </div>
+      </main>
+      <aside class="rightbar"></aside>
+    </div>
   </div>
 </body>
 </html>
