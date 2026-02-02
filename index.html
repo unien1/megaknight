@@ -1,82 +1,90 @@
 <!doctype html>
 <html lang="en">
-  <head>
+
+<head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>RECIPEs</title>
-<link rel="icon" type="image/png" sizes="32x32" href="assets/images/icon2.png">
-<link rel="icon" type="image/png" sizes="16x16" href="assets/images/icon2.png">
-<link rel="stylesheet" href="css/style.css" />
-<link rel="stylesheet" href="css/main.css" />
-  </head>
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/images/icon2.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/images/icon2.png">
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/main.css" />
+</head>
 
-  <body>
+<body>
     <div class="app">
-      <header class="topbar">
-        <div class="topbar__left">
-          <button class="btn btn--ghost" type="button">ADD RECIPE</button>
+        <header class="topbar">
+            <div class="topbar__left">
+                <button class="btn btn--ghost" data-nav="pages/admin.html">
+  ADD RECIPE
+</button>
+            </div>
+
+            <div class="topbar__center">
+                <h1 class="brand">MEGAKNIGHT</h1>
+            </div>
+
+            <div class="topbar__right">
+                <div class="icon-btn" aria-label="SEARCH" title="SEARCH" data-nav="pages/category.html?type=search">
+                    🔎
+                </div>
+                <div class="icon-btn" aria-label="PROFILE" title="PROFILE" data-nav="pages/login.html">
+                    👤
+                </div>
+            </div>
+        </header>
+
+        <div class="layout">
+            <aside class="sidebar">
+                <nav class="sidebar__nav">
+                    <a class="side-link is-active" href="#" data-nav="pages/category.html?type=fastfood">
+                        Fastfood
+                    </a>
+                    <a class="side-link" href="#" data-nav="pages/category.html?type=russian">
+                        Russian cuisine
+                    </a>
+                    <a class="side-link" href="#" data-nav="pages/category.html?type=french">
+  French cuisine
+                    </a>
+                </nav>
+            </aside>
+
+            <main class="main">
+                <section class="rail">
+                    <div class="categories__grid" aria-label="categories">
+                        <article class="category-card" data-nav="pages/category.html?type=breakfast">
+                            <img src="assets/images/breakfast.jpeg" alt="BREAKFAST" />
+                            <span>BREAKFAST</span>
+                        </article>
+                        <article class="category-card" data-nav="pages/category.html?type=lunch">
+                            <img src="assets/images/lunch.jpeg" alt="LUNCH" />
+                            <span>LUNCH</span>
+                        </article>
+                        <article class="category-card" data-nav="pages/category.html?type=dinner">
+                            <img src="assets/images/dinner.jpeg" alt="DINNER" />
+                            <span>DINNER</span>
+                        </article>
+                        <article class="category-card" data-nav="pages/category.html?type=healthy">
+                            <img src="assets/images/healthy.jpeg" alt="HEALTHY" />
+                            <span>HEALTHY</span>
+                        </article>
+                        <article class="category-card" data-nav="pages/category.html?type=snacks">
+                            <img src="assets/images/snacks.jpeg" alt="SNACKS" />
+                            <span>SNACKS</span>
+                        </article>
+                        <article class="category-card" data-nav="pages/category.html?type=desserts">
+                            <img src="assets/images/desserts.jpeg" alt="DESSERTS" />
+                            <span>DESSERTS</span>
+                        </article>
+                    </div>
+                </section>
+            </main>
+
+            <aside class="rightbar">
+                <!-- <img src="assets/images/Megaknight.jpeg" alt="Sidebar image" /> -->
+            </aside>
         </div>
+        <script src="js/app.js"></script>
+</body>
 
-        <div class="topbar__center">
-          <h1 class="brand">MEGAKNIGHT</h1>
-        </div>
-
-        <div class="topbar__right">
-          <div class="icon-btn" aria-label="SEARCH" title="SEARCH">
-            🔎
-          </div>
-          <div class="icon-btn" aria-label="PROFILE" title="PROFILE">
-            👤
-          </div>
-        </div>
-      </header>
-
-<div class="layout">
-  <aside class="sidebar">
-    <nav class="sidebar__nav">
-      <a class="side-link is-active" href="#">Fastfood</a>
-      <a class="side-link" href="#">Russian cuisine</a>
-      <a class="side-link" href="#">French cuisine</a>
-    </nav>
-  </aside>
-
-  <main class="main">
-    <section class="rail">
-      <div class="categories__grid" aria-label="categories">
-        <article class="category-card">
-          <img src="assets/images/breakfast.jpeg" alt="BREAKFAST" />
-          <span>BREAKFAST</span>
-        </article>
-
-        <article class="category-card">
-          <img src="assets/images/lunch.jpeg" alt="LUNCH" />
-          <span>LUNCH</span>
-        </article>
-
-        <article class="category-card">
-          <img src="assets/images/dinner.jpeg" alt="DINNER" />
-          <span>DINNER</span>
-        </article>
-
-        <article class="category-card">
-          <img src="assets/images/healthy.jpeg" alt="HEALTHY" />
-          <span>HEALTHY</span>
-        </article>
-
-        <article class="category-card">
-          <img src="assets/images/snacks.jpeg" alt="SNACKS" />
-          <span>SNACKS</span>
-        </article>
-
-        <article class="category-card">
-          <img src="assets/images/desserts.jpeg" alt="DESSERTS" />
-          <span>DESSERTS</span>
-        </article>
-      </div>
-    </section>
-  </main>
-
-<aside class="rightbar">
-  <!-- <img src="assets/images/Megaknight.jpeg" alt="Sidebar image" /> -->
-</aside>
-</div>
+</html>
