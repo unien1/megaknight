@@ -19,6 +19,10 @@ document.addEventListener("click", (e) => {
     const url = el.getAttribute("data-nav");
     if (!url) return;
 
+    if (url.includes("recipe.html")) {
+    sessionStorage.setItem("lastListUrl", window.location.href);
+}
+
     window.location.href = url;
 });
 
@@ -107,3 +111,54 @@ document.addEventListener("click", (e) => {
         });
     }
 })();
+
+// ====================================
+// 4) Кнопка Back (кроме recipe.html)
+// ====================================
+document.addEventListener("click", (e) => {
+    const btn = e.target.closest(".js-back");
+    if (!btn) return;
+
+    e.preventDefault();
+
+    if (window.history.length > 1) {
+        window.history.back();
+    } else {
+        window.location.href = "../index.html";
+    }
+});
+
+// ====================================
+// Back на recipe.html (возврат в ту категорию, откуда пришли)
+// ====================================
+document.addEventListener("click", (e) => {
+    const btn = e.target.closest(".js-recipe-back");
+    if (!btn) return;
+
+    e.preventDefault();
+
+    const last = sessionStorage.getItem("lastListUrl");
+    if (last) {
+        window.location.href = last;
+        return;
+    }
+
+    // если вдруг lastListUrl нет (открыли рецепт напрямую)
+    if (window.history.length > 1) {
+        window.history.back();
+    } else {
+        window.location.href = "category.html?type=all";
+    }
+});
+
+// ====================================
+// Клик по MEGAKNIGHT -> на главную
+// ====================================
+document.addEventListener("click", (e) => {
+    const brand = e.target.closest(".brand");
+    if (!brand) return;
+
+    // если мы внутри /pages -> главная на уровень выше
+    const isInPages = window.location.pathname.includes("/pages/");
+    window.location.href = isInPages ? "../index.html" : "index.html";
+});
