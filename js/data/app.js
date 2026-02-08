@@ -20,14 +20,14 @@ document.addEventListener("click", (e) => {
     if (!url) return;
 
     // Если идём в рецепт со страницы category.html — добавляем from=тип категории
-if (url.includes("recipe.html") && window.location.pathname.includes("category.html")) {
-    const params = new URLSearchParams(window.location.search);
-    const type = params.get("type") || "all";
+    if (url.includes("recipe.html") && window.location.pathname.includes("category.html")) {
+        const params = new URLSearchParams(window.location.search);
+        const type = params.get("type") || "all";
 
-    // url обычно типа "recipe.html?id=nachos"
-    window.location.href = `${url}&from=${encodeURIComponent(type)}`;
-    return;
-}
+        // url обычно типа "recipe.html?id=nachos"
+        window.location.href = `${url}&from=${encodeURIComponent(type)}`;
+        return;
+    }
 
     window.location.href = url;
 });
@@ -117,6 +117,50 @@ if (url.includes("recipe.html") && window.location.pathname.includes("category.h
         });
     }
 })();
+// ====================================
+// AUTH (простая авторизация для статического проекта)
+// ====================================
+const AUTH_KEY = "isLoggedIn";
+const DEMO_USER = "admin";
+const DEMO_PASS = "1234";
+
+function isLoggedIn() {
+    return localStorage.getItem(AUTH_KEY) === "1";
+}
+
+function requireAuthOnAdmin() {
+    const page = window.location.pathname.split("/").pop();
+    if (page === "admin.html" && !isLoggedIn()) {
+        window.location.href = "login.html";
+    }
+}
+
+(function setupLoginForm() {
+    const form = document.getElementById("loginForm");
+    if (!form) return; // не login.html
+
+    const msg = document.getElementById("loginMsg");
+
+    form.addEventListener("submit", (e) => {
+        e.preventDefault();
+
+        const userEl = document.getElementById("loginUser");
+        const passEl = document.getElementById("loginPass");
+        const user = (userEl ? userEl.value : "").trim();
+        const pass = (passEl ? passEl.value : "").trim();
+
+        if (user === DEMO_USER && pass === DEMO_PASS) {
+            localStorage.setItem(AUTH_KEY, "1");
+            if (msg) msg.textContent = "✅ Logged in!";
+            window.location.href = "admin.html";
+        } else {
+            if (msg) msg.textContent = "❌ Wrong username or password.";
+        }
+    });
+})();
+
+// запускаем проверку доступа
+requireAuthOnAdmin();
 
 // ====================================
 // 4) Кнопка Back (кроме recipe.html)

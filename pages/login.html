@@ -13,7 +13,7 @@
 </head>
 
 <body>
-        <header class="topbar">
+    <header class="topbar">
         <div class="topbar__left">
             <button class="btn btn--ghost js-back" type="button">
                 ← Back
@@ -33,11 +33,13 @@
     <main class="main">
         <h1>Login</h1>
 
-        <form class="auth-form">
-            <input type="text" placeholder="Username" />
-            <input type="password" placeholder="Password" />
-            <button class="btn">Login</button>
+        <form class="auth-form" id="loginForm">
+            <input id="loginUser" type="text" placeholder="Username" />
+            <input id="loginPass" type="password" placeholder="Password" />
+            <button class="btn" type="submit">Login</button>
+            <div id="loginMsg" style="margin-top:10px;"></div>
         </form>
+
     </main>
     <script src="../js/data/app.js"></script>
 </body>
