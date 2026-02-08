@@ -3,10 +3,10 @@
 
 <head>
     <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Recipe</title>
 
     <link rel="icon" type="image/png" sizes="32x32" href="../assets/images/icon2.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="../assets/images/icon2.png">
     <link rel="stylesheet" href="../css/style.css" />
     <link rel="stylesheet" href="../css/main.css" />
     <link rel="stylesheet" href="../css/pages.css" />
@@ -14,64 +14,45 @@
 
 <body>
     <div class="app">
-
         <header class="topbar">
             <div class="topbar__left">
-                <button class="btn btn--ghost" type="button" data-nav="pages/admin.html">ADD RECIPE</button>
+                <button class="btn btn--ghost" data-nav="category.html?type=all">← Back</button>
             </div>
-
             <div class="topbar__center">
-                <h1 class="brand brand--recipe">Classic Burger</h1>
+                <h1 class="brand">MEGAKNIGHT</h1>
             </div>
-
             <div class="topbar__right">
-                <div class="icon-btn" aria-label="PROFILE" title="PROFILE" data-nav="pages/login.html">👤</div>
+                <div class="icon-btn" aria-label="PROFILE" title="PROFILE" data-nav="login.html">👤</div>
             </div>
         </header>
 
-        <main class="main recipe-page">
+        <div class="layout">
+            <main class="main">
 
-            <div class="recipe-container">
+                <h2 id="recipeTitle" style="margin: 0 0 12px 0;"></h2>
 
-                <section class="recipe-layout">
-                    <div class="recipe-left">
-                        <div class="recipe-panel recipe-photo-panel">
-                            <img src="../assets/images/burger.jpeg" alt="Classic Burger" />
-                        </div>
-                    </div>
-
-                    <div class="recipe-right">
-                        <div class="recipe-panel">
-                            <h3>Info</h3>
-                            <p><strong>Time:</strong> 30 min</p>
-                            <p><strong>Difficulty:</strong> Easy</p>
-                        </div>
-
-                        <div class="recipe-panel">
-                            <h3>Ingredients</h3>
-                            <ul>
-                                <li>Bun</li>
-                                <li>Meat</li>
-                                <li>Cheese</li>
-                                <li>Tomato</li>
-                                <li>Sauce</li>
-                            </ul>
-                        </div>
-                    </div>
-                </section>
-
-                <div class="recipe-panel recipe-steps-panel">
-                    <h3>Steps</h3>
-                    <ol>
-                        <li>Prepare meat</li>
-                        <li>Fry the patty</li>
-                        <li>Assemble burger</li>
-                    </ol>
+                <div style="margin-bottom: 12px;">
+                    <span id="recipeMeta"></span>
                 </div>
 
-        </main>
+                <div style="margin-bottom: 16px;">
+                    <img id="recipeImage" alt="" style="max-width: 100%; border-radius: 12px;">
+                </div>
+
+                <h3>Ingredients</h3>
+                <ul id="ingredientsList"></ul>
+
+                <h3>Steps</h3>
+                <ol id="stepsList"></ol>
+
+                <div id="recipeError" style="margin-top:16px;"></div>
+            </main>
         </div>
+    </div>
+
+    <!-- ВАЖНО: сначала данные, потом логика -->
+    <script src="../js/data/recipes.js"></script>
+    <script src="../js/data/app.js"></script>
 </body>
-<script src="../js/app.js"></script>
 
 </html>

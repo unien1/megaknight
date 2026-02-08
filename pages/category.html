@@ -16,7 +16,7 @@
     <div class="app">
         <header class="topbar">
             <div class="topbar__left">
-                <button class="btn btn--ghost" type="button">ADD RECIPE</button>
+                <button class="btn btn--ghost" type="button" data-nav="admin.html">ADD RECIPE</button>
             </div>
 
             <div class="topbar__center">
@@ -24,63 +24,151 @@
             </div>
 
             <div class="topbar__right">
-                <div class="icon-btn" aria-label="PROFILE" title="PROFILE">👤</div>
+                <div class="icon-btn" aria-label="SEARCH" title="SEARCH" data-nav="category.html?type=search">🔎</div>
+                <div class="icon-btn" aria-label="PROFILE" title="PROFILE" data-nav="login.html">👤</div>
             </div>
         </header>
 
         <div class="layout">
             <aside class="sidebar">
                 <nav class="sidebar__nav">
-                    <a class="side-link is-active" href="#">Fastfood</a>
-                    <a class="side-link" href="#">Russian cuisine</a>
-                    <a class="side-link" href="#">French cuisine</a>
+                    <a class="side-link" href="category.html?type=fastfood" data-nav="category.html?type=fastfood">Fastfood</a>
+                    <a class="side-link" href="category.html?type=russian" data-nav="category.html?type=russian">Russian cuisine</a>
+                    <a class="side-link" href="category.html?type=french" data-nav="category.html?type=french">French cuisine</a>
                 </nav>
             </aside>
 
             <main class="main">
+                <h2 id="categoryTitle" style="margin: 0 0 16px 0;"></h2>
+
                 <div class="category-list">
 
-                    <div class="category-card-row">
+                    <div class="category-card-row" data-types="snacks fastfood" data-nav="recipe.html?id=nachos">
+
+                        <div class="category-card-row__image">
+                            <img src="../assets/images/snacks.jpeg" alt="Nachos">
+                        </div>
+                        <div class="category-card-row__content">
+                            <div class="category-card-row__title">Nachos</div>
+                            <div class="category-card-row__desc">
+                                Crispy nachos with cheese sauce and salsa.
+                            </div>
+                            <div class="category-card-row__meta">10 min • easy</div>
+                        </div>
+                    </div>
+                    <div class="category-card-row" data-types="french breakfast desserts" data-nav="recipe.html?id=crepes">
+
+                        <div class="category-card-row__image">
+                            <img src="../assets/images/desserts.jpeg" alt="Crêpes">
+                        </div>
+                        <div class="category-card-row__content">
+                            <div class="category-card-row__title">Crêpes</div>
+                            <div class="category-card-row__desc">
+                                Thin French crêpes with sweet filling: banana, chocolate or jam.
+                            </div>
+                            <div class="category-card-row__meta">20 min • easy</div>
+                        </div>
+                    </div>
+
+
+                    <div class="category-card-row" data-types="russian breakfast desserts" data-nav="recipe.html?id=syrniki">
+
+                        <div class="category-card-row__image">
+                            <img src="../assets/images/desserts.jpeg" alt="Syrniki">
+                        </div>
+                        <div class="category-card-row__content">
+                            <div class="category-card-row__title">Syrniki</div>
+                            <div class="category-card-row__desc">
+                                Russian cottage cheese pancakes served with sour cream or jam.
+                            </div>
+                            <div class="category-card-row__meta">20 min • easy</div>
+                        </div>
+                    </div>
+
+
+                    <div class="category-card-row" data-types="dinner" data-nav="recipe.html?id=carbonara">
+
+                        <div class="category-card-row__image">
+                            <img src="../assets/images/dinner.jpeg" alt="Pasta Carbonara">
+                        </div>
+                        <div class="category-card-row__content">
+                            <div class="category-card-row__title">Pasta Carbonara</div>
+                            <div class="category-card-row__desc">
+                                Classic carbonara: pasta, eggs, cheese and bacon.
+                            </div>
+                            <div class="category-card-row__meta">25 min • medium</div>
+                        </div>
+                    </div>
+                    <div class="category-card-row" data-types="lunch healthy" data-nav="recipe.html?id=chicken-salad">
+
+                        <div class="category-card-row__image">
+                            <img src="../assets/images/healthy.jpeg" alt="Chicken Salad">
+                        </div>
+                        <div class="category-card-row__content">
+                            <div class="category-card-row__title">Chicken salad</div>
+                            <div class="category-card-row__desc">
+                                Chicken, fresh greens, cucumbers and light dressing.
+                            </div>
+                            <div class="category-card-row__meta">15 min • easy</div>
+                        </div>
+                    </div>
+
+
+                    <div class="category-card-row" data-types="breakfast healthy" data-nav="recipe.html?id=oatmeal">
+
+                        <div class="category-card-row__image">
+                            <img src="../assets/images/breakfast.jpeg" alt="Oatmeal">
+                        </div>
+
+                        <div class="category-card-row__content">
+                            <div class="category-card-row__title">Oatmeal with berries</div>
+                            <div class="category-card-row__desc">
+                                Warm oatmeal topped with berries and honey. Perfect healthy breakfast.
+                            </div>
+                            <div class="category-card-row__meta">10 min • easy</div>
+                        </div>
+                    </div>
+
+                    <div class="category-card-row" data-types="fastfood dinner" data-nav="recipe.html?id=burger">
+
                         <div class="category-card-row__image">
                             <img src="../assets/images/burger.jpeg" alt="Burger">
                         </div>
 
                         <div class="category-card-row__content">
                             <div class="category-card-row__title">Burger</div>
-
                             <div class="category-card-row__desc">
                                 Juicy classic burger with beef patty, cheese, fresh vegetables and homemade sauce.
                             </div>
-
-                            <div class="category-card-row__meta">
-                                30 min • easy
-                            </div>
+                            <div class="category-card-row__meta">30 min • easy</div>
                         </div>
                     </div>
 
-                    <div class="category-card-row">
+
+                    <div class="category-card-row" data-types="fastfood lunch" data-nav="recipe.html?id=pizza">
+
                         <div class="category-card-row__image">
                             <img src="../assets/images/pizza.jpeg" alt="Pizza">
                         </div>
 
                         <div class="category-card-row__content">
                             <div class="category-card-row__title">Pizza</div>
-
                             <div class="category-card-row__desc">
                                 Italian pizza with crispy dough, tomato sauce and melted cheese.
                             </div>
-
-                            <div class="category-card-row__meta">
-                                45 min • medium
-                            </div>
+                            <div class="category-card-row__meta">45 min • medium</div>
                         </div>
                     </div>
+
                 </div>
             </main>
+
             <aside class="rightbar"></aside>
         </div>
     </div>
+
+    <!-- ВАЖНО: скрипт для страниц в /pages -->
+    <script src="../js/data/app.js"></script>
 </body>
-<script src="../js/app.js"></script>
 
 </html>
