@@ -19,8 +19,14 @@ document.addEventListener("click", (e) => {
     const url = el.getAttribute("data-nav");
     if (!url) return;
 
-    if (url.includes("recipe.html")) {
-    sessionStorage.setItem("lastListUrl", window.location.href);
+    // Если идём в рецепт со страницы category.html — добавляем from=тип категории
+if (url.includes("recipe.html") && window.location.pathname.includes("category.html")) {
+    const params = new URLSearchParams(window.location.search);
+    const type = params.get("type") || "all";
+
+    // url обычно типа "recipe.html?id=nachos"
+    window.location.href = `${url}&from=${encodeURIComponent(type)}`;
+    return;
 }
 
     window.location.href = url;
@@ -114,6 +120,7 @@ document.addEventListener("click", (e) => {
 
 // ====================================
 // 4) Кнопка Back (кроме recipe.html)
+// ЛЕСТНИЦА: category -> home, иначе обычный back
 // ====================================
 document.addEventListener("click", (e) => {
     const btn = e.target.closest(".js-back");
@@ -121,6 +128,15 @@ document.addEventListener("click", (e) => {
 
     e.preventDefault();
 
+    const page = window.location.pathname.split("/").pop(); // category.html / login.html / admin.html
+
+    // если это category.html -> на главную
+    if (page === "category.html") {
+        window.location.href = "../index.html";
+        return;
+    }
+
+    // иначе (login/admin) — назад, а если некуда, то на главную
     if (window.history.length > 1) {
         window.history.back();
     } else {
@@ -129,7 +145,7 @@ document.addEventListener("click", (e) => {
 });
 
 // ====================================
-// Back на recipe.html (возврат в ту категорию, откуда пришли)
+// Back на recipe.html -> в категорию (по from=...)
 // ====================================
 document.addEventListener("click", (e) => {
     const btn = e.target.closest(".js-recipe-back");
@@ -137,18 +153,10 @@ document.addEventListener("click", (e) => {
 
     e.preventDefault();
 
-    const last = sessionStorage.getItem("lastListUrl");
-    if (last) {
-        window.location.href = last;
-        return;
-    }
+    const params = new URLSearchParams(window.location.search);
+    const from = params.get("from") || "all";
 
-    // если вдруг lastListUrl нет (открыли рецепт напрямую)
-    if (window.history.length > 1) {
-        window.history.back();
-    } else {
-        window.location.href = "category.html?type=all";
-    }
+    window.location.href = `category.html?type=${encodeURIComponent(from)}`;
 });
 
 // ====================================
