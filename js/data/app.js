@@ -225,7 +225,13 @@ if (type === "added") {
     const id = (params.get("id") || "").toLowerCase();
 
     const recipes = window.RECIPES || [];
-    const recipe = recipes.find((r) => (r.id || "").toLowerCase() === id);
+let recipe = recipes.find((r) => String(r.id || "").toLowerCase() === id);
+
+// если не нашли среди встроенных — ищем среди добавленных (localStorage)
+if (!recipe) {
+  const user = loadUserRecipes();
+  recipe = user.find((r) => String(r.id || "").toLowerCase() === id);
+}
 
     const errorEl = document.getElementById("recipeError");
     const imgEl = document.getElementById("recipeImage");
