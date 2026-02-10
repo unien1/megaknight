@@ -1,3 +1,21 @@
+(function protectPanelsByRole() {
+    const role = localStorage.getItem("authRole");
+    const path = window.location.pathname;
+
+    // защита admin panel
+    if (path.includes("admin.html")) {
+        if (role !== "admin") {
+            window.location.href = "login.html";
+        }
+    }
+
+    // защита user panel
+    if (path.includes("user.html")) {
+        if (role !== "user") {
+            window.location.href = "login.html";
+        }
+    }
+})();
 const USER_RECIPES_KEY = "USER_RECIPES";
 
 function loadUserRecipes() {
@@ -64,12 +82,10 @@ document.addEventListener("click", (e) => {
 
 
         if (isLogged && role === "user") {
-
             const isInPages = window.location.pathname.includes("/pages/");
-            window.location.href = isInPages ? "admin.html" : "pages/admin.html";
+            window.location.href = isInPages ? "user.html" : "pages/user.html";
             return;
         }
-
 
     }
 
@@ -89,49 +105,58 @@ document.addEventListener("click", (e) => {
 
 
 (function() {
-    const listEl = document.querySelector(".category-list");
-    if (!listEl) return;
+        const listEl = document.querySelector(".category-list");
+        if (!listEl) return;
 
-    const params = new URLSearchParams(window.location.search);
-    const type = (params.get("type") || "").toLowerCase();
+        const params = new URLSearchParams(window.location.search);
+        const type = (params.get("type") || "").toLowerCase();
 
-    if (type === "added") {
-        const list = loadUserRecipes();
-        const role = localStorage.getItem("authRole");
-        const canDelete = role === "admin";
+        if (type === "added") {
+            const list = loadUserRecipes();
+            const role = localStorage.getItem("authRole");
+            const canDelete = role === "admin";
 
-        listEl.innerHTML = "";
+            listEl.innerHTML = "";
 
-        if (list.length === 0) {
-            listEl.innerHTML = `<div style="opacity:.6;">No added recipes</div>`;
-            return;
-        }
+            if (list.length === 0) {
+                listEl.innerHTML = `<div style="opacity:.6;">No added recipes</div>`;
+                return;
+            }
 
-        list.forEach(r => {
-            const row = document.createElement("div");
-            row.className = "category-card-row";
-            row.setAttribute("data-nav", `recipe.html?id=${encodeURIComponent(r.id)}&from=category&type=added`);
+            list.forEach(r => {
+                        const row = document.createElement("div");
+                        row.className = "category-card-row";
+                        row.setAttribute(
+                            "data-nav",
+                            `recipe.html?id=${encodeURIComponent(r.id)}&from=category&type=added`
+                        );
 
-            row.innerHTML = `
-      <div class="category-card-row__image">
-        <img src="${r.image || ""}" alt="${r.title || ""}">
-      </div>
-      <div class="category-card-row__content">
-        <div class="category-card-row__title">${r.title || "Untitled"}</div>
+                        row.innerHTML = `
+          <div class="category-card-row__image">
+            <img src="${r.image || ""}" alt="${r.title || ""}">
+          </div>
+          <div class="category-card-row__content">
+            <div class="category-card-row__title">${r.title || "Untitled"}</div>
 
-        <div style="margin-top:10px; display:flex; gap:10px;">
-          <button class="btn btn--ghost js-del-user-recipe" type="button" data-id="${r.id}">
-            Delete
-          </button>
-        </div>
-      </div>
-    `;
+            <div style="margin-top:10px; display:flex; gap:10px;">
+              ${canDelete ? `
+                <button
+                  class="btn btn--ghost js-del-user-recipe"
+                  type="button"
+                  data-id="${r.id}">
+                  Delete
+                </button>
+              ` : ``}
+            </div>
+          </div>
+        `;
 
-            listEl.appendChild(row);
-        });
+        listEl.appendChild(row);
+    });
 
-        return;
-    }
+    return;
+}
+
 
     const titleEl = document.getElementById("categoryTitle");
     if (titleEl) titleEl.textContent = type ? `Category: ${type}` : "Category";
@@ -299,7 +324,6 @@ function requireAuthOnAdmin() {
         window.location.href = "login.html";
     }
 }
-
 (function setupLoginForm() {
     const form = document.getElementById("loginForm");
     if (!form) return;
@@ -314,6 +338,7 @@ function requireAuthOnAdmin() {
         const user = (userEl ? userEl.value : "").trim();
         const pass = (passEl ? passEl.value : "").trim();
 
+        // ===== ADMIN LOGIN =====
         if (user === DEMO_ADMIN_USER && pass === DEMO_ADMIN_PASS) {
             localStorage.setItem(AUTH_KEY, "1");
             localStorage.setItem("authRole", "admin");
@@ -324,14 +349,14 @@ function requireAuthOnAdmin() {
             return;
         }
 
-
+        // ===== USER LOGIN =====
         if (user === DEMO_NORMAL_USER && pass === DEMO_NORMAL_PASS) {
             localStorage.setItem(AUTH_KEY, "1");
             localStorage.setItem("authRole", "user");
             localStorage.setItem("authUser", "user");
 
             if (msg) msg.textContent = "✅ Logged in as user!";
-            window.location.href = "admin.html";
+            window.location.href = "user.html"; // 🔥 ВАЖНО
             return;
         }
 
@@ -543,7 +568,9 @@ document.addEventListener("click", (e) => {
 
     const btn = t.closest ? t.closest(".js-del-user-recipe") : null;
     if (!btn) return;
-
+    if (localStorage.getItem("authRole") !== "admin") {
+        return;
+    }
     e.preventDefault();
     e.stopPropagation();
 

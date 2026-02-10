@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Admin</title>
+
+    <link rel="icon" type="image/png" sizes="32x32" href="../assets/images/icon2.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../assets/images/icon2.png">
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="stylesheet" href="../css/main.css" />
+    <link rel="stylesheet" href="../css/pages.css" />
+</head>
+
+<body>
+
+    <header class="topbar">
+        <div class="topbar__left">
+            <button class="btn btn--ghost js-back" type="button">← Back</button>
+
+            <button class="btn btn--ghost js-add-recipe" type="button" data-nav="admin.html">
+      ADD RECIPE
+    </button>
+
+            <button class="btn btn--ghost js-logout" type="button">Logout</button>
+        </div>
+
+        <div class="topbar__center">
+            <h1 class="brand">MEGAKNIGHT</h1>
+        </div>
+
+        <div class="topbar__right"></div>
+    </header>
+
+    <main class="main">
+        <h1>User panel</h1>
+        <p style="opacity:.6; margin-top:-10px;">
+            You can add recipes, but cannot delete them
+        </p>
+
+        <form class="auth-form" id="addRecipeForm" style="max-width: 720px;">
+            <input id="rTitle" type="text" placeholder="Recipe title" />
+
+            <input id="rImage" type="text" placeholder="Image URL (optional). Example: https://...jpg" />
+
+            <textarea id="rIngredients" rows="6" placeholder="Ingredients (one per line)" style="border-radius:14px;border:1px solid rgba(255,255,255,0.22);background:rgba(0,0,0,0.25);color:rgba(255,255,255,0.92);padding:12px 14px;outline:none;resize:vertical;"></textarea>
+
+            <textarea id="rSteps" rows="7" placeholder="Steps (one per line)" style="border-radius:14px;border:1px solid rgba(255,255,255,0.22);background:rgba(0,0,0,0.25);color:rgba(255,255,255,0.92);padding:12px 14px;outline:none;resize:vertical;"></textarea>
+
+            <button class="btn" type="submit">Save recipe</button>
+
+            <div id="adminMsg" style="margin-top:10px;"></div>
+        </form>
+    </main>
+
+    <script src="../js/data/app.js"></script>
+
+</body>
+
+</html>
