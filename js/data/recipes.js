@@ -1,6 +1,3 @@
-// js/data/recipes.js
-// Храним рецепты в одном месте. id должен совпадать с ?id=... в data-nav
-
 window.RECIPES = [{
         id: "oatmeal",
         title: "Oatmeal with berries",

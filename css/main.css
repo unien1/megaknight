@@ -368,9 +368,6 @@ a {
     pointer-events: none;
 }
 
-
-/* Любой элемент с data-nav выглядит кликабельным */
-
 [data-nav] {
     cursor: pointer;
 }

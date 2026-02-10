@@ -2,14 +2,14 @@
     const role = localStorage.getItem("authRole");
     const path = window.location.pathname;
 
-    // защита admin panel
+
     if (path.includes("admin.html")) {
         if (role !== "admin") {
             window.location.href = "login.html";
         }
     }
 
-    // защита user panel
+
     if (path.includes("user.html")) {
         if (role !== "user") {
             window.location.href = "login.html";
@@ -338,7 +338,7 @@ function requireAuthOnAdmin() {
         const user = (userEl ? userEl.value : "").trim();
         const pass = (passEl ? passEl.value : "").trim();
 
-        // ===== ADMIN LOGIN =====
+        
         if (user === DEMO_ADMIN_USER && pass === DEMO_ADMIN_PASS) {
             localStorage.setItem(AUTH_KEY, "1");
             localStorage.setItem("authRole", "admin");
@@ -349,7 +349,7 @@ function requireAuthOnAdmin() {
             return;
         }
 
-        // ===== USER LOGIN =====
+        
         if (user === DEMO_NORMAL_USER && pass === DEMO_NORMAL_PASS) {
             localStorage.setItem(AUTH_KEY, "1");
             localStorage.setItem("authRole", "user");
@@ -391,9 +391,7 @@ document.addEventListener("click", (e) => {
     }
 });
 
-// ====================================
-// Back на recipe.html -> в категорию (по from=...)
-// ====================================
+
 document.addEventListener("click", (e) => {
     let t = e.target;
     if (t && t.nodeType === 3) t = t.parentElement;
@@ -409,9 +407,7 @@ document.addEventListener("click", (e) => {
     window.location.href = `category.html?type=${encodeURIComponent(from)}`;
 });
 
-// ====================================
-// Клик по MEGAKNIGHT -> на главную
-// ====================================
+
 document.addEventListener("click", (e) => {
     let t = e.target;
     if (t && t.nodeType === 3) t = t.parentElement;
@@ -437,9 +433,7 @@ document.addEventListener("click", (e) => {
         btn.style.display = "none";
     }
 })();
-// ====================================
-// LOGOUT
-// ====================================
+
 document.addEventListener("click", (e) => {
     let t = e.target;
     if (t && t.nodeType === 3) t = t.parentElement;
@@ -456,12 +450,10 @@ document.addEventListener("click", (e) => {
     window.location.href = "../index.html";
 });
 
-// =========================
-// Admin: save recipe
-// =========================
+
 (function setupAdminAddRecipe() {
     const form = document.getElementById("addRecipeForm");
-    if (!form) return; // не admin.html
+    if (!form) return; 
 
     const msg = document.getElementById("adminMsg");
 
@@ -473,7 +465,7 @@ document.addEventListener("click", (e) => {
         const ingText = document.getElementById("rIngredients").value.trim();
         const stepsText = document.getElementById("rSteps").value.trim();
 
-        // обязательные поля
+        
         if (!title || !ingText || !stepsText) {
             if (msg) msg.textContent = "Заполни название, ингредиенты и шаги.";
             return;
@@ -492,10 +484,10 @@ document.addEventListener("click", (e) => {
         const newRecipe = {
             id: `${slugify(title)}-${Date.now()}`,
             title: title,
-            image: imageInput || "", // ❗ НИЧЕГО не подставляем автоматически
+            image: imageInput || "", 
             time: "—",
             difficulty: "easy",
-            categories: ["added"], // ❗ всегда Added recipe
+            categories: ["added"], 
             desc: "User added recipe",
             ingredients: ingredients,
             steps: steps
@@ -510,19 +502,17 @@ document.addEventListener("click", (e) => {
     });
 })();
 
-// =========================
-// Category sidebar: show added recipes in current category
-// =========================
+
 (function renderUserRecipesInSidebar() {
     const nav = document.getElementById("userRecipesNav");
-    if (!nav) return; // не category.html
+    if (!nav) return; 
 
     const params = new URLSearchParams(window.location.search);
-    const type = (params.get("type") || "").toLowerCase(); // fastfood/russian/french/...
+    const type = (params.get("type") || "").toLowerCase(); 
 
     const list = loadUserRecipes();
 
-    // показываем только те, что относятся к текущей категории
+    
     const filtered = list.filter(r => (r.categories || []).includes(type));
 
     nav.innerHTML = "";
@@ -535,22 +525,20 @@ document.addEventListener("click", (e) => {
     filtered.forEach(r => {
         const a = document.createElement("a");
         a.className = "side-link";
-        // переходим в recipe.html и говорим откуда пришли (чтобы back работал)
+        
         a.setAttribute("data-nav", `recipe.html?id=${encodeURIComponent(r.id)}&from=${encodeURIComponent(type)}`);
         a.textContent = r.title;
         nav.appendChild(a);
     });
 })();
 
-// =========================
-// Recipe page: дать доступ к user recipes
-// =========================
+
 (function mergeUserRecipesToWindow() {
-    // если recipes.js не подключен на странице, window.RECIPES может быть undefined
+    
     const base = Array.isArray(window.RECIPES) ? window.RECIPES : [];
     const user = loadUserRecipes();
 
-    // склеиваем без дублей
+    
     const map = new Map();
     [...base, ...user].forEach(r => {
         if (r && r.id) map.set(r.id, r);
@@ -558,9 +546,7 @@ document.addEventListener("click", (e) => {
 
     window.RECIPES = Array.from(map.values());
 })();
-// =========================
-// Delete user-added recipe (from localStorage)
-// =========================
+
 document.addEventListener("click", (e) => {
     let t = e.target;
     if (!t) return;
