@@ -2,69 +2,65 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Recipe</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Recipe</title>
 
-    <link rel="icon" type="image/png" sizes="32x32" href="../assets/images/icon2.png">
-    <link rel="stylesheet" href="../css/style.css" />
-    <link rel="stylesheet" href="../css/main.css" />
-    <link rel="stylesheet" href="../css/pages.css" />
+  <link rel="icon" type="image/png" sizes="32x32" href="../assets/images/icon2.png">
+  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="stylesheet" href="../css/main.css" />
+  <link rel="stylesheet" href="../css/pages.css" />
 </head>
 
 <body>
-    <div class="app">
-        <header class="topbar">
-            <div class="topbar__left">
-                <button class="btn btn--ghost js-recipe-back" type="button">← Back</button>
+  <div class="app">
+    <header class="topbar">
+      <div class="topbar__left">
+        <button class="btn btn--ghost js-recipe-back" type="button">← Back</button>
+      </div>
+      <div class="topbar__center">
+        <h1 class="brand">MEGAKNIGHT</h1>
+      </div>
+      <div class="topbar__right">
+        <div class="icon-btn" aria-label="PROFILE" title="PROFILE" data-nav="login.html">👤</div>
+      </div>
+    </header>
+
+    <div class="layout layout--single">
+      <main class="main recipe-page">
+        <div class="recipe-container">
+          <h2 id="recipeTitle" class="recipe-title"></h2>
+
+          <div class="recipe-layout">
+            <div class="recipe-left">
+              <div id="recipeMeta" class="recipe-pill"></div>
+
+              <div class="recipe-panel recipe-photo-panel">
+                <img id="recipeImage" alt="">
+              </div>
             </div>
-            <div class="topbar__center">
-                <h1 class="brand">MEGAKNIGHT</h1>
+
+            <div class="recipe-right">
+              <section class="recipe-panel">
+                <h3>Ingredients</h3>
+                <ul id="ingredientsList"></ul>
+              </section>
+
+              <section class="recipe-panel">
+                <h3>Steps</h3>
+                <ol id="stepsList"></ol>
+              </section>
             </div>
-            <div class="topbar__right">
-                <div class="icon-btn" aria-label="PROFILE" title="PROFILE" data-nav="login.html">👤</div>
-            </div>
-        </header>
+          </div>
 
-        <div class="layout">
-            <main class="main recipe-page">
-                <div class="recipe-container">
-                    <h2 id="recipeTitle" style="margin: 0 0 12px 0;"></h2>
-
-                    <div class="recipe-panel" style="margin-bottom: 12px; text-align:center;">
-                        <span id="recipeMeta"></span>
-                    </div>
-
-                    <div class="recipe-layout">
-
-                        <div class="recipe-panel recipe-photo-panel">
-                            <img id="recipeImage" alt="">
-                        </div>
-
-
-                        <div>
-                            <div class="recipe-panel">
-                                <h3>Ingredients</h3>
-                                <ul id="ingredientsList"></ul>
-                            </div>
-
-                            <div class="recipe-panel recipe-steps-panel">
-                                <h3>Steps</h3>
-                                <ol id="stepsList"></ol>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div id="recipeError" style="margin-top:16px;"></div>
-                </div>
-            </main>
-
+          <div id="recipeError" style="margin-top:16px; opacity:.75;"></div>
         </div>
+      </main>
     </div>
+  </div>
 
-
-    <script src="../js/data/recipes.js"></script>
-    <script src="../js/data/app.js"></script>
+  <script src="../js/data/recipes.js"></script>
+  <script src="../js/data/app.js"></script>
 </body>
 
 </html>
