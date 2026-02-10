@@ -27,30 +27,42 @@
         </header>
 
         <div class="layout">
-            <main class="main">
+            <main class="main recipe-page">
+                <div class="recipe-container">
+                    <h2 id="recipeTitle" style="margin: 0 0 12px 0;"></h2>
 
-                <h2 id="recipeTitle" style="margin: 0 0 12px 0;"></h2>
+                    <div class="recipe-panel" style="margin-bottom: 12px; text-align:center;">
+                        <span id="recipeMeta"></span>
+                    </div>
 
-                <div style="margin-bottom: 12px;">
-                    <span id="recipeMeta"></span>
+                    <div class="recipe-layout">
+
+                        <div class="recipe-panel recipe-photo-panel">
+                            <img id="recipeImage" alt="">
+                        </div>
+
+
+                        <div>
+                            <div class="recipe-panel">
+                                <h3>Ingredients</h3>
+                                <ul id="ingredientsList"></ul>
+                            </div>
+
+                            <div class="recipe-panel recipe-steps-panel">
+                                <h3>Steps</h3>
+                                <ol id="stepsList"></ol>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="recipeError" style="margin-top:16px;"></div>
                 </div>
-
-                <div style="margin-bottom: 16px;">
-                    <img id="recipeImage" alt="" style="max-width: 100%; border-radius: 12px;">
-                </div>
-
-                <h3>Ingredients</h3>
-                <ul id="ingredientsList"></ul>
-
-                <h3>Steps</h3>
-                <ol id="stepsList"></ol>
-
-                <div id="recipeError" style="margin-top:16px;"></div>
             </main>
+
         </div>
     </div>
 
-    <!-- ВАЖНО: сначала данные, потом логика -->
+
     <script src="../js/data/recipes.js"></script>
     <script src="../js/data/app.js"></script>
 </body>

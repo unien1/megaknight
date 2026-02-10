@@ -109,7 +109,7 @@ window.RECIPES = [{
     {
         id: "syrniki",
         title: "Syrniki",
-        image: "../assets/images/desserts.jpeg",
+        image: "../assets/images/syrniki1.jpg",
         time: "20 min",
         difficulty: "easy",
         categories: ["russian", "breakfast", "desserts"],
