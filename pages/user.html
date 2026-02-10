@@ -18,9 +18,9 @@
         <div class="topbar__left">
             <button class="btn btn--ghost js-back" type="button">← Back</button>
 
-            <button class="btn btn--ghost js-add-recipe" type="button" data-nav="admin.html">
-      ADD RECIPE
-    </button>
+        <button class="btn btn--ghost js-add-recipe" type="button" data-nav="login.html">
+          ADD RECIPE
+        </button>
 
             <button class="btn btn--ghost js-logout" type="button">Logout</button>
         </div>
@@ -34,26 +34,39 @@
 
     <main class="main">
         <h1>User panel</h1>
-        <p style="opacity:.6; margin-top:-10px;">
-            You can add recipes, but cannot delete them
-        </p>
+<form class="admin-form" id="addRecipeForm" style="max-width: 720px;">
+  <input id="rTitle" type="text" placeholder="Recipe title" />
 
-        <form class="auth-form" id="addRecipeForm" style="max-width: 720px;">
-            <input id="rTitle" type="text" placeholder="Recipe title" />
+  <input id="rImage" type="text" placeholder="Image URL (optional). Example: https://...jpg" />
 
-            <input id="rImage" type="text" placeholder="Image URL (optional). Example: https://...jpg" />
+  <div class="form-row">
+    <div class="form-field">
+      <div class="form-label">COOKING TIME (MINUTES)</div>
+      <input id="rTime" type="number" min="1" placeholder="15" />
+    </div>
 
-            <textarea id="rIngredients" rows="6" placeholder="Ingredients (one per line)" style="border-radius:14px;border:1px solid rgba(255,255,255,0.22);background:rgba(0,0,0,0.25);color:rgba(255,255,255,0.92);padding:12px 14px;outline:none;resize:vertical;"></textarea>
+    <div class="form-field">
+      <div class="form-label">DIFFICULTY</div>
+      <select id="rDifficulty">
+        <option value="easy">Easy</option>
+        <option value="medium">Medium</option>
+        <option value="hard">Hard</option>
+      </select>
+    </div>
+  </div>
 
-            <textarea id="rSteps" rows="7" placeholder="Steps (one per line)" style="border-radius:14px;border:1px solid rgba(255,255,255,0.22);background:rgba(0,0,0,0.25);color:rgba(255,255,255,0.92);padding:12px 14px;outline:none;resize:vertical;"></textarea>
+  <textarea id="rIngredients" rows="6" placeholder="Ingredients (one per line)"></textarea>
 
-            <button class="btn" type="submit">Save recipe</button>
+  <textarea id="rSteps" rows="7" placeholder="Steps (one per line)"></textarea>
 
-            <div id="adminMsg" style="margin-top:10px;"></div>
-        </form>
+  <button class="btn" type="submit">Save recipe</button>
+
+  <div id="adminMsg" style="margin-top:10px;"></div>
+</form>
     </main>
 
-    <script src="../js/data/app.js"></script>
+<script src="../js/data/recipes.js"></script>
+<script src="../js/data/app.js"></script>
 
 </body>
 

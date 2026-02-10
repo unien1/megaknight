@@ -104,136 +104,108 @@ document.addEventListener("click", (e) => {
 
 
 
-(function() {
-        const listEl = document.querySelector(".category-list");
-        if (!listEl) return;
 
-        const params = new URLSearchParams(window.location.search);
-        const type = (params.get("type") || "").toLowerCase();
+(function () {
+  const listEl = document.querySelector(".category-list");
+  if (!listEl) return;
 
-        if (type === "added") {
-            const list = loadUserRecipes();
-            const role = localStorage.getItem("authRole");
-            const canDelete = role === "admin";
+  const params = new URLSearchParams(window.location.search);
+  const type = (params.get("type") || "").toLowerCase();
 
-            listEl.innerHTML = "";
+  const titleEl = document.getElementById("categoryTitle");
+  if (titleEl) titleEl.textContent = type ? `Category: ${type}` : "Category";
 
-            if (list.length === 0) {
-                listEl.innerHTML = `<div style="opacity:.6;">No added recipes</div>`;
-                return;
-            }
+  const cards = Array.from(listEl.querySelectorAll(".category-card-row"));
 
-            list.forEach(r => {
-                        const row = document.createElement("div");
-                        row.className = "category-card-row";
-                        row.setAttribute(
-                            "data-nav",
-                            `recipe.html?id=${encodeURIComponent(r.id)}&from=category&type=added`
-                        );
+  function createUserCard(recipe, canDelete) {
+    const wrap = document.createElement("div");
+    wrap.className = "category-card-row";
+    wrap.setAttribute(
+      "data-nav",
+      `recipe.html?id=${encodeURIComponent(recipe.id)}&from=category&type=added`
+    );
 
-                        row.innerHTML = `
-          <div class="category-card-row__image">
-            <img src="${r.image || ""}" alt="${r.title || ""}">
-          </div>
-          <div class="category-card-row__content">
-            <div class="category-card-row__title">${r.title || "Untitled"}</div>
+    const types = Array.isArray(recipe.categories) ? recipe.categories.join(" ") : "added";
+    wrap.setAttribute("data-types", types);
 
-            <div style="margin-top:10px; display:flex; gap:10px;">
-              ${canDelete ? `
-                <button
-                  class="btn btn--ghost js-del-user-recipe"
-                  type="button"
-                  data-id="${r.id}">
-                  Delete
-                </button>
-              ` : ``}
-            </div>
-          </div>
-        `;
-
-        listEl.appendChild(row);
-    });
-
-    return;
-}
-
-
-    const titleEl = document.getElementById("categoryTitle");
-    if (titleEl) titleEl.textContent = type ? `Category: ${type}` : "Category";
-
-    const cards = Array.from(listEl.querySelectorAll(".category-card-row"));
-
-    function createUserCard(recipe) {
-        const wrap = document.createElement("div");
-        wrap.className = "category-card-row";
-        wrap.setAttribute("data-nav", `recipe.html?id=${encodeURIComponent(recipe.id)}&from=category&type=${encodeURIComponent(type || "")}`);
-
-        wrap.innerHTML = `
+    wrap.innerHTML = `
       <div class="category-card-row__image">
-        <img src="${recipe.image || ""}" alt="${recipe.title || ""}">
+        <img src="${recipe.image || "../assets/images/healthy.jpeg"}" alt="${recipe.title || ""}">
       </div>
+
       <div class="category-card-row__content">
         <div class="category-card-row__title">${recipe.title || "Untitled"}</div>
-        <div class="category-card-row__meta" style="opacity:.75; margin-top:6px;">
-          <span>${recipe.time || "—"}</span>
-          <span style="margin-left:10px;">${recipe.difficulty || ""}</span>
+
+<div class="category-card-row__desc">
+  ${(Array.isArray(recipe.ingredients) && recipe.ingredients.length)
+    ? recipe.ingredients.slice(0, 3).join(", ")
+    : "Ingredients not specified"}
+</div>
+
+        <div class="category-card-row__meta">
+          ${recipe.time || "—"} • ${recipe.difficulty || "easy"}
         </div>
 
-        <div style="margin-top:10px;">
-          <button class="btn btn--ghost js-del-user-recipe" type="button" data-id="${recipe.id}">Delete</button>
-        </div>
+        ${canDelete ? `
+          <div style="margin-top:10px; display:flex; gap:10px;">
+            <button class="btn btn--ghost js-del-user-recipe" type="button" data-id="${recipe.id}">
+              Delete
+            </button>
+          </div>
+        ` : ``}
       </div>
     `;
-        return wrap;
+
+    return wrap;
+  }
+
+  if (!type || type === "all") {
+    cards.forEach((c) => (c.style.display = ""));
+  } else {
+    cards.forEach((card) => {
+      const types = (card.getAttribute("data-types") || "")
+        .toLowerCase()
+        .split(/\s+/)
+        .filter(Boolean);
+
+      card.style.display = types.includes(type) ? "" : "none";
+    });
+  }
+
+  const userList = loadUserRecipes();
+  const role = localStorage.getItem("authRole");
+  const canDelete = role === "admin";
+
+  if (type === "added") {
+    cards.forEach((c) => (c.style.display = "none"));
+    listEl.innerHTML = "";
+
+    if (userList.length === 0) {
+      listEl.innerHTML = `<div style="opacity:.6;">No added recipes</div>`;
+      return;
     }
 
+    userList.forEach((r) => listEl.appendChild(createUserCard(r, canDelete)));
+    return;
+  }
 
-    if (!type || type === "all") {
-        cards.forEach((c) => (c.style.display = ""));
-    } else {
-        cards.forEach((card) => {
-            const types = (card.getAttribute("data-types") || "")
-                .toLowerCase()
-                .split(/\s+/)
-                .filter(Boolean);
+  if (type) {
+    const filteredUser = userList.filter((r) =>
+      (r.categories || []).map(x => String(x).toLowerCase()).includes(type)
+    );
 
-            card.style.display = types.includes(type) ? "" : "none";
-        });
+    if (filteredUser.length) {
+      const sep = document.createElement("div");
+      sep.style.margin = "18px 0 8px";
+      sep.style.opacity = ".7";
+      sep.textContent = "Your added recipes:";
+      listEl.appendChild(sep);
+
+      filteredUser.forEach((r) => listEl.appendChild(createUserCard(r, canDelete)));
     }
-
-    const userList = loadUserRecipes();
-
-
-    if (type === "added") {
-        cards.forEach((c) => (c.style.display = "none"));
-        listEl.innerHTML = "";
-
-        if (userList.length === 0) {
-            listEl.innerHTML = `<div style="opacity:.6;">No added recipes</div>`;
-            return;
-        }
-
-        userList.forEach((r) => listEl.appendChild(createUserCard(r)));
-        return;
-    }
-
-
-    if (type) {
-        const filteredUser = userList.filter((r) =>
-            (r.categories || []).map(x => String(x).toLowerCase()).includes(type)
-        );
-
-        if (filteredUser.length) {
-            const sep = document.createElement("div");
-            sep.style.margin = "18px 0 8px";
-            sep.style.opacity = ".7";
-            sep.textContent = "Your added recipes:";
-            listEl.appendChild(sep);
-
-            filteredUser.forEach((r) => listEl.appendChild(createUserCard(r)));
-        }
-    }
+  }
 })();
+
 
 
 (function() {
@@ -451,55 +423,51 @@ document.addEventListener("click", (e) => {
 });
 
 
-(function setupAdminAddRecipe() {
-    const form = document.getElementById("addRecipeForm");
-    if (!form) return; 
+(function setupAddRecipeUniversal() {
+  const form = document.getElementById("addRecipeForm");
+  if (!form) return;
 
-    const msg = document.getElementById("adminMsg");
+  const page = window.location.pathname.split("/").pop(); // admin.html / user.html
+  const msg = document.getElementById(page === "user.html" ? "userMsg" : "adminMsg");
 
-    form.addEventListener("submit", (e) => {
-        e.preventDefault();
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
 
-        const title = document.getElementById("rTitle").value.trim();
-        const imageInput = document.getElementById("rImage").value.trim();
-        const ingText = document.getElementById("rIngredients").value.trim();
-        const stepsText = document.getElementById("rSteps").value.trim();
+    const title = document.getElementById("rTitle")?.value.trim() || "";
+    const imageInput = document.getElementById("rImage")?.value.trim() || "";
+    const ingText = document.getElementById("rIngredients")?.value.trim() || "";
+    const stepsText = document.getElementById("rSteps")?.value.trim() || "";
 
-        
-        if (!title || !ingText || !stepsText) {
-            if (msg) msg.textContent = "Заполни название, ингредиенты и шаги.";
-            return;
-        }
+    const time = document.getElementById("rTime")?.value.trim() || "—";
+    const difficulty = document.getElementById("rDifficulty")?.value || "easy";
 
-        const ingredients = ingText
-            .split("\n")
-            .map(s => s.trim())
-            .filter(Boolean);
+    if (!title || !ingText || !stepsText) {
+      if (msg) msg.textContent = "Заполни название, ингредиенты и шаги.";
+      return;
+    }
 
-        const steps = stepsText
-            .split("\n")
-            .map(s => s.trim())
-            .filter(Boolean);
+    const ingredients = ingText.split("\n").map(s => s.trim()).filter(Boolean);
+    const steps = stepsText.split("\n").map(s => s.trim()).filter(Boolean);
 
-        const newRecipe = {
-            id: `${slugify(title)}-${Date.now()}`,
-            title: title,
-            image: imageInput || "", 
-            time: "—",
-            difficulty: "easy",
-            categories: ["added"], 
-            desc: "User added recipe",
-            ingredients: ingredients,
-            steps: steps
-        };
+    const newRecipe = {
+      id: `${slugify(title)}-${Date.now()}`,
+      title,
+      image: imageInput || "",
+      time,
+      difficulty,
+      categories: ["added"],
+      desc: "User added recipe",
+      ingredients,
+      steps
+    };
 
-        const list = loadUserRecipes();
-        list.push(newRecipe);
-        saveUserRecipes(list);
+    const list = loadUserRecipes();
+    list.push(newRecipe);
+    saveUserRecipes(list);
 
-        if (msg) msg.textContent = "✅ Recipe saved!";
-        form.reset();
-    });
+    if (msg) msg.textContent = "✅ Recipe saved!";
+    form.reset();
+  });
 })();
 
 

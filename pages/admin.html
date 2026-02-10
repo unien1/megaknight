@@ -35,25 +35,37 @@
 <main class="main">
   <h1>Admin panel</h1>
 
-  <form class="auth-form" id="addRecipeForm" style="max-width: 720px;">
-    <input id="rTitle" type="text" placeholder="Recipe title" />
+<form id="addRecipeForm" class="admin-form" autocomplete="off">
+  <input id="rTitle" type="text" placeholder="Recipe title" />
 
-    <input id="rImage" type="text" placeholder="Image URL (optional). Example: https://...jpg" />
+  <input id="rImage" type="text" placeholder="Image URL (optional). Example: https://...jpg" />
+  <div class="form-row">
+    <label class="form-field">
+      <span class="form-label">Cooking time (minutes)</span>
+      <input id="rTime" type="number" min="1" step="1" placeholder="15" />
+    </label>
 
-    <textarea id="rIngredients" rows="6"
-      placeholder="Ingredients (one per line)"
-      style="border-radius:14px;border:1px solid rgba(255,255,255,0.22);background:rgba(0,0,0,0.25);color:rgba(255,255,255,0.92);padding:12px 14px;outline:none;resize:vertical;"></textarea>
+    <label class="form-field">
+      <span class="form-label">Difficulty</span>
+      <select id="rDifficulty">
+        <option value="easy">Easy</option>
+        <option value="medium" selected>Medium</option>
+        <option value="hard">Hard</option>
+      </select>
+    </label>
+  </div>
 
-    <textarea id="rSteps" rows="7"
-      placeholder="Steps (one per line)"
-      style="border-radius:14px;border:1px solid rgba(255,255,255,0.22);background:rgba(0,0,0,0.25);color:rgba(255,255,255,0.92);padding:12px 14px;outline:none;resize:vertical;"></textarea>
+  <textarea id="rIngredients" rows="6" placeholder="Ingredients (one per line)"></textarea>
 
-    <button class="btn" type="submit">Save recipe</button>
+  <textarea id="rSteps" rows="7" placeholder="Steps (one per line)"></textarea>
 
-    <div id="adminMsg" style="margin-top:10px;"></div>
-  </form>
+  <button class="btn" type="submit">Save recipe</button>
+
+  <div id="adminMsg" style="margin-top:10px;"></div>
+</form>
 </main>
 
+<script src="../js/data/recipes.js"></script>
 <script src="../js/data/app.js"></script>
 
 </body>
