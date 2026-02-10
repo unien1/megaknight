@@ -1,7 +1,3 @@
-// js/data/app.js
-// =========================
-// USER RECIPES (localStorage)
-// =========================
 const USER_RECIPES_KEY = "USER_RECIPES";
 
 function loadUserRecipes() {
@@ -27,7 +23,7 @@ function slugify(str) {
         .replace(/^-+|-+$/g, "");
 }
 
-// если фото не ввели — подбираем простое по категории
+
 function autoImageByCategory(cat) {
     if (cat === "fastfood") return "../assets/images/burger.jpeg";
     if (cat === "russian") return "../assets/images/russian.jpeg";
@@ -35,55 +31,54 @@ function autoImageByCategory(cat) {
     return "../assets/images/healthy.jpeg";
 }
 
-// =========================
-// 1) Навигация по data-nav
-// =========================
+
 document.addEventListener("click", (e) => {
     let t = e.target;
     if (!t) return;
 
-    // иногда target — текст, у него нет closest()
+
     if (t.nodeType === 3) t = t.parentElement;
-    // НЕ навигируем, если нажали на кнопку Delete (или вообще на любую кнопку/инпут внутри карточки)
+
     if (t.closest && t.closest(".js-del-user-recipe")) return;
     const interactive = t.closest && t.closest("button, input, textarea, select");
     if (interactive && !interactive.hasAttribute("data-nav")) return;
     const el = t && t.closest ? t.closest("[data-nav]") : null;
     if (!el) return;
 
-    // чтобы <a href="#"> не прыгал
+
     if (el.tagName === "A") e.preventDefault();
 
     const url = el.getAttribute("data-nav");
     if (!url) return;
-    // ====== если нажали на иконку профиля -> открываем не login, а панель ======
+
     if (url.includes("login.html")) {
         const isLogged = localStorage.getItem("isLoggedIn") === "1";
-        const role = localStorage.getItem("authRole"); // "admin" или null
+        const role = localStorage.getItem("authRole");
 
         if (isLogged && role === "admin") {
-            // если мы в /pages -> admin.html рядом, если на главной -> pages/admin.html
+
             const isInPages = window.location.pathname.includes("/pages/");
             window.location.href = isInPages ? "admin.html" : "pages/admin.html";
             return;
         }
 
-        // (опционально) если у тебя есть user-панель
+
         if (isLogged && role === "user") {
+
             const isInPages = window.location.pathname.includes("/pages/");
-            window.location.href = isInPages ? "user.html" : "pages/user.html";
+            window.location.href = isInPages ? "admin.html" : "pages/admin.html";
             return;
         }
 
-        // если не залогинен — идём на login как обычно
+
     }
 
-    // Если идём в рецепт со страницы category.html — добавляем from=тип категории
+
     if (url.includes("recipe.html") && window.location.pathname.includes("category.html")) {
         const params = new URLSearchParams(window.location.search);
         const type = params.get("type") || "all";
 
-        // url обычно типа "recipe.html?id=nachos"
+
         window.location.href = `${url}&from=${encodeURIComponent(type)}`;
         return;
     }
@@ -91,20 +86,20 @@ document.addEventListener("click", (e) => {
     window.location.href = url;
 });
 
-// ====================================
-// 2) Категории на category.html + "Added recipe" из localStorage
-// ====================================
+
+
 (function() {
     const listEl = document.querySelector(".category-list");
-    if (!listEl) return; // не category.html
+    if (!listEl) return;
 
     const params = new URLSearchParams(window.location.search);
     const type = (params.get("type") || "").toLowerCase();
-    // если открыли Added recipe — показываем рецепты из localStorage
+
     if (type === "added") {
         const list = loadUserRecipes();
+        const role = localStorage.getItem("authRole");
+        const canDelete = role === "admin";
 
-        // прячем встроенные карточки и очищаем список
         listEl.innerHTML = "";
 
         if (list.length === 0) {
@@ -135,7 +130,7 @@ document.addEventListener("click", (e) => {
             listEl.appendChild(row);
         });
 
-        return; // важно: дальше обычная фильтрация не нужна
+        return;
     }
 
     const titleEl = document.getElementById("categoryTitle");
@@ -167,7 +162,7 @@ document.addEventListener("click", (e) => {
         return wrap;
     }
 
-    // стандартная фильтрация встроенных карточек
+
     if (!type || type === "all") {
         cards.forEach((c) => (c.style.display = ""));
     } else {
@@ -183,7 +178,7 @@ document.addEventListener("click", (e) => {
 
     const userList = loadUserRecipes();
 
-    // если открыли "Added recipe" — показываем только добавленные
+
     if (type === "added") {
         cards.forEach((c) => (c.style.display = "none"));
         listEl.innerHTML = "";
@@ -197,7 +192,7 @@ document.addEventListener("click", (e) => {
         return;
     }
 
-    // если открыли обычную категорию — добавляем туда пользовательские рецепты этой категории
+
     if (type) {
         const filteredUser = userList.filter((r) =>
             (r.categories || []).map(x => String(x).toLowerCase()).includes(type)
@@ -215,12 +210,10 @@ document.addEventListener("click", (e) => {
     }
 })();
 
-// ====================================
-// 3) Рендер рецепта на recipe.html?id=...
-// ====================================
+
 (function() {
     const titleEl = document.getElementById("recipeTitle");
-    if (!titleEl) return; // не recipe.html
+    if (!titleEl) return;
 
     const params = new URLSearchParams(window.location.search);
     const id = (params.get("id") || "").toLowerCase();
@@ -228,7 +221,7 @@ document.addEventListener("click", (e) => {
     const recipes = window.RECIPES || [];
     let recipe = recipes.find((r) => String(r.id || "").toLowerCase() === id);
 
-    // если не нашли среди встроенных — ищем среди добавленных (localStorage)
+
     if (!recipe) {
         const user = loadUserRecipes();
         recipe = user.find((r) => String(r.id || "").toLowerCase() === id);
@@ -244,30 +237,30 @@ document.addEventListener("click", (e) => {
         titleEl.textContent = "Recipe not found";
         if (errorEl) errorEl.textContent = `No recipe for id: ${id}`;
 
-        // если картинки элемент есть — спрячем, чтобы не было мусора
+
         if (imgEl) imgEl.style.display = "none";
         return;
     }
 
-    // ===== TITLE + META =====
+
     titleEl.textContent = recipe.title || "Untitled";
     if (metaEl) metaEl.textContent = `${recipe.time || "—"} • ${recipe.difficulty || "easy"}`;
 
-    // ===== IMAGE (ПУСТО, ЕСЛИ НЕТ ССЫЛКИ) =====
+
     if (imgEl) {
         if (recipe.image) {
             imgEl.src = recipe.image;
             imgEl.alt = recipe.title || "";
             imgEl.style.display = "";
         } else {
-            // нет картинки — скрываем полностью
+
             imgEl.removeAttribute("src");
             imgEl.alt = "";
             imgEl.style.display = "none";
         }
     }
 
-    // ===== INGREDIENTS =====
+
     if (ingEl) {
         ingEl.innerHTML = "";
         const ingredients = Array.isArray(recipe.ingredients) ? recipe.ingredients : [];
@@ -278,7 +271,7 @@ document.addEventListener("click", (e) => {
         });
     }
 
-    // ===== STEPS =====
+
     if (stepsEl) {
         stepsEl.innerHTML = "";
         const steps = Array.isArray(recipe.steps) ? recipe.steps : [];
@@ -289,12 +282,12 @@ document.addEventListener("click", (e) => {
         });
     }
 })();
-// ====================================
-// AUTH (простая авторизация для статического проекта)
-// ====================================
 const AUTH_KEY = "isLoggedIn";
-const DEMO_USER = "admin";
-const DEMO_PASS = "1234";
+const DEMO_ADMIN_USER = "admin";
+const DEMO_ADMIN_PASS = "1234";
+
+const DEMO_NORMAL_USER = "user";
+const DEMO_NORMAL_PASS = "1111";
 
 function isLoggedIn() {
     return localStorage.getItem(AUTH_KEY) === "1";
@@ -309,7 +302,7 @@ function requireAuthOnAdmin() {
 
 (function setupLoginForm() {
     const form = document.getElementById("loginForm");
-    if (!form) return; // не login.html
+    if (!form) return;
 
     const msg = document.getElementById("loginMsg");
 
@@ -321,26 +314,35 @@ function requireAuthOnAdmin() {
         const user = (userEl ? userEl.value : "").trim();
         const pass = (passEl ? passEl.value : "").trim();
 
-        if (user === DEMO_USER && pass === DEMO_PASS) {
+        if (user === DEMO_ADMIN_USER && pass === DEMO_ADMIN_PASS) {
             localStorage.setItem(AUTH_KEY, "1");
-            localStorage.setItem("authRole", "admin"); // ← ВАЖНО
-            localStorage.setItem("authUser", "admin"); // ← можно, но не обязательно
+            localStorage.setItem("authRole", "admin");
+            localStorage.setItem("authUser", "admin");
 
-            if (msg) msg.textContent = "✅ Logged in!";
+            if (msg) msg.textContent = "✅ Logged in as admin!";
             window.location.href = "admin.html";
-        } else {
-            if (msg) msg.textContent = "❌ Wrong username or password.";
+            return;
         }
+
+
+        if (user === DEMO_NORMAL_USER && pass === DEMO_NORMAL_PASS) {
+            localStorage.setItem(AUTH_KEY, "1");
+            localStorage.setItem("authRole", "user");
+            localStorage.setItem("authUser", "user");
+
+            if (msg) msg.textContent = "✅ Logged in as user!";
+            window.location.href = "admin.html";
+            return;
+        }
+
+        if (msg) msg.textContent = "❌ Wrong username or password.";
     });
 })();
 
-// запускаем проверку доступа
+
 requireAuthOnAdmin();
 
-// ====================================
-// 4) Кнопка Back (кроме recipe.html)
-// ЛЕСТНИЦА: category -> home, иначе обычный back
-// ====================================
+
 document.addEventListener("click", (e) => {
     let t = e.target;
     if (t && t.nodeType === 3) t = t.parentElement;
@@ -396,9 +398,7 @@ document.addEventListener("click", (e) => {
     window.location.href = isInPages ? "../index.html" : "index.html";
 });
 
-// ====================================
-// Показываем ADD RECIPE только для admin
-// ====================================
+
 (function controlAddRecipeButton() {
     const btn = document.querySelector(".js-add-recipe");
     if (!btn) return;
@@ -406,8 +406,7 @@ document.addEventListener("click", (e) => {
     const isLogged = localStorage.getItem("isLoggedIn") === "1";
     const role = localStorage.getItem("authRole");
 
-    // показываем ТОЛЬКО если admin
-    if (isLogged && role === "admin") {
+    if (isLogged && (role === "admin" || role === "user")) {
         btn.style.display = "";
     } else {
         btn.style.display = "none";
